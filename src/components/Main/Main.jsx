@@ -1,17 +1,13 @@
 import React, { useContext } from "react";
-import { IoMdArrowDropdown } from "react-icons/io";
-import { CgMenuGridO } from "react-icons/cg";
+import { Context } from "../../context/Context";
 import { assets } from "../../assets/assets";
 import Card from "../comman/Card";
 import { FcIdea } from "react-icons/fc";
 import { RiPencilFill } from "react-icons/ri";
 import { IoCompassOutline } from "react-icons/io5";
 import { FaBroadcastTower } from "react-icons/fa";
-import { RiGalleryFill } from "react-icons/ri";
-import { IoMdMic } from "react-icons/io";
-import { VscSend } from "react-icons/vsc";
-import { Context } from "../../context/Context";
-import { IoMdMenu } from "react-icons/io";
+import Header from "./Header/Header";
+import Input from "./InputField/Input";
 
 const Main = () => {
   const cardData = [
@@ -32,58 +28,28 @@ const Main = () => {
       Icon: FaBroadcastTower,
     },
   ];
-  const {
-    inputs,
-    setInputs,
-    recentPrompt,
-    showResult,
-    loading,
-    resultData,
-    onSent,
-    toggleSidebar,
-  } = useContext(Context);
+  const { recentPrompt, showResult, loading, resultData, isDarkMode } =
+    useContext(Context);
 
   return (
-    <div className="absolute lg:relative flex flex-col justify-between min-h-screen w-full">
+    <div
+      className={`absolute lg:relative flex flex-col justify-between min-h-screen w-full ${
+        isDarkMode ? "bg-black text-white" : "bg-white text-black"
+      }`}
+    >
       {/* Top Bar */}
-      <div className="flex justify-between w-11/12 mx-auto py-4">
-        <div className="flex items-center text-xl gap-1 cursor-pointer">
-          <div
-            className="hover:bg-btn-background w-fit p-3 ml-px cursor-pointer rounded-full transition-all lg:hidden"
-            onClick={() => {
-              toggleSidebar();
-            }}
-          >
-            <IoMdMenu className="text-2xl " />
-          </div>
-          <p>Gemini</p>
-          <IoMdArrowDropdown />
-        </div>
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-2 p-2 bg-background rounded-lg cursor-pointer hover:bg-btn-background">
-            <img src={assets.logo} alt="" className="w-5" />
-            <p className="hidden md:block">Try Gemini Advance</p>
-          </div>
-          <div>
-            <CgMenuGridO className="text-2xl cursor-pointer" />
-          </div>
-          <div>
-            <img
-              className="rounded-full cursor-pointer w-8 h-8"
-              src={assets.user}
-              alt=""
-            />
-          </div>
-        </div>
-      </div>
-
+      <Header />
       {/* Main Content */}
       <div className="max-w-4xl mx-auto w-full flex flex-col justify-between flex-grow">
         {!showResult ? (
           <>
-            <div className="fading text-4xl sm:text-5xl md:text-6xl text-light-gray font-medium py-8 mb-14 pl-4">
+            <div
+              className={`${
+                isDarkMode ? "text-darkGray" : "text-lightGray"
+              } fading text-4xl sm:text-5xl md:text-6xl font-medium py-8 mb-14 pl-4`}
+            >
               <p>
-                <span className="gradient-text">Hello, Fahad Ur</span>
+                <span className="gradient-text">Hello, Fahad Ur Rehman</span>
               </p>
               <p>How can I help you today?</p>
             </div>
@@ -120,37 +86,8 @@ const Main = () => {
             </div>
           </div>
         )}
-
         {/* Input Field */}
-        <div className="mt-auto w-full">
-          <div className="flex items-center justify-between p-5 bg-background rounded-full mx-2">
-            <input
-              type="text"
-              onChange={(e) => setInputs(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && inputs) {
-                  onSent();
-                }
-              }}
-              value={inputs}
-              placeholder="Enter Prompt here"
-              className="bg-transparent outline-none focus:outline-none w-full"
-            />
-            <div className="flex items-center text-xl gap-6">
-              <RiGalleryFill className=" cursor-pointer" />
-              <IoMdMic className="cursor-pointer" />
-              {inputs ? (
-                <VscSend onClick={() => onSent()} className="cursor-pointer" />
-              ) : null}
-            </div>
-          </div>
-          <div className="text-center my-2 px-2">
-            <p className="text-sm">
-              Gemini may display inaccurate info, including about people, so
-              double-check its responses. Your privacy and Gemini Apps
-            </p>
-          </div>
-        </div>
+        <Input />
       </div>
     </div>
   );

@@ -80,7 +80,9 @@ const Sidebar = () => {
               return (
                 <div
                   onClick={() => loadPrompt(item)}
-                  className="fading flex items-center justify-between gap-2 py-2 px-4 rounded-full hover:bg-btn-background cursor-pointer transition-all"
+                  className={`${
+                    isDarkMode ? "hover:bg-darkHoverBg" : "hover:bg-buttonBg"
+                  } fading flex items-center justify-between gap-2 py-2 px-4 rounded-full cursor-pointer transition-all`}
                 >
                   <div className="flex items-center">
                     <IoChatboxOutline className="mr-3" />

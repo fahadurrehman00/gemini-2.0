@@ -48,33 +48,43 @@ const ContextProvider = (props) => {
     let responseArray = response.split("**");
     let newResponse = "";
     for (let i = 0; i < responseArray.length; i++) {
-      newResponse += responseArray[i];
-      delayPara(i, responseArray[i]);
+      if (i === 0 || i % 2 !== 1) {
+        newResponse += responseArray[i];
+      } else {
+        newResponse += "<br/><b>" + responseArray[i] + "</b>";
+      }
+    }
+    let newResponse2 = newResponse.split("*").join("</b>");
+    let finalResponse = newResponse2.split(" ");
+    for (let i = 0; i < finalResponse.length; i++) {
+      const nextWord = finalResponse[i];
+      delayPara(i, nextWord + " ");
     }
     setLoading(false);
-    return response;
+    setInputs("");
   };
-
+  const contextValue = {
+    inputs,
+    setInputs,
+    recentPrompt,
+    setRecentPrompt,
+    prevPrompts,
+    setPrevPrompts,
+    showResult,
+    setShowResult,
+    loading,
+    setLoading,
+    resultData,
+    setResultData,
+    onSent,
+    newChat,
+    toggleSidebar,
+    isOpenSidebar,
+    isDarkMode,
+    toggleDarkMode,
+  };
   return (
-    <Context.Provider
-      value={{
-        inputs,
-        setInputs,
-        recentPrompt,
-        prevPrompts,
-        showResult,
-        loading,
-        resultData,
-        onSent,
-        toggleSidebar,
-        isOpenSidebar,
-        newChat,
-        isDarkMode,
-        toggleDarkMode,
-      }}
-    >
-      {props.children}
-    </Context.Provider>
+    <Context.Provider value={contextValue}>{props.children}</Context.Provider>
   );
 };
 

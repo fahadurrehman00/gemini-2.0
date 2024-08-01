@@ -120,7 +120,7 @@ const Sidebar = () => {
           } flex items-center gap-4 pl-3 py-3 rounded-full cursor-pointer transition-all`}
         >
           <LuSettings className="text-lg" />
-          {isOpenSidebar ? <p>Setting</p> : null}
+          {isOpenSidebar ? <p>Setting</p> : <p className="hidden">FAHAD</p>}
         </div>
       </div>
     </div>

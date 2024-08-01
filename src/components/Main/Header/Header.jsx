@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Context } from "../../../context/Context";
 import { assets } from "../../../assets/assets";
 import { IoMdArrowDropdown, IoMdMenu } from "react-icons/io";
@@ -6,6 +6,11 @@ import { CgMenuGridO } from "react-icons/cg";
 import ThemeButton from "./ThemeButton/ThemeButton";
 const Header = () => {
   const { toggleSidebar, isDarkMode } = useContext(Context);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleToggle = () => {
+    setIsOpen();
+  };
   return (
     <div className="flex justify-between w-[97%] mx-auto py-3">
       <div className="flex items-center text-xl gap-1 cursor-pointer">
@@ -20,7 +25,17 @@ const Header = () => {
         <p className={`${isDarkMode ? "text-lightGray" : "text-grayText"}`}>
           Gemini
         </p>
-        <IoMdArrowDropdown />
+        <IoMdArrowDropdown
+          className={`transition-transform duration-300 ${
+            isOpen ? "rotate-180" : ""
+          }`}
+          onClick={handleToggle}
+        />
+        {isOpen && (
+          <p className=" p-2 bg-gray-200 rounded-md">
+            This Gemini Clone developed by Fahad ur Rehman
+          </p>
+        )}
       </div>
       <div className="flex items-center gap-2">
         <ThemeButton />

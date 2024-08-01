@@ -1,16 +1,28 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: "class", // Enable class-based dark mode
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       backgroundColor: {
-        background: "#f0f4f9",
-        "btn-background": "#e2e6eb",
-        'card-bg': "#dfe4ea"
+        white: "#FFFFFF",
+        background: "#F0F4F9",
+        buttonBg: "#E5EAF1",
+        hoverBg: "#DDE3EA",
+        black: "#131314",
+        darkBackground: "#1E1F20",
+        darkHoverBg: "#333537",
       },
     },
     textColor: {
-      "light-gray": "#c4c7c5",
+      white: "#ffffff",
+      lightGray: "#c4c7c5",
+      darkGray: "#444746",
+      darkTextColor: "#666667",
+      grayText: "#5F6368",
+      grayColor: "#9A9DA1",
+      yellow: "#FFD600",
+      blue: "#2167FE"
     },
   },
   plugins: [],

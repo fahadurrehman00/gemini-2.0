@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { IoMdMenu } from "react-icons/io";
 import { FiPlus } from "react-icons/fi";
 import { IoChatboxOutline } from "react-icons/io5";
@@ -16,22 +16,39 @@ const Sidebar = () => {
     newChat,
     toggleSidebar,
     isOpenSidebar,
+    isDarkMode,
   } = useContext(Context);
 
   const loadPrompt = async (prompt) => {
     setRecentPrompt(prompt);
     await onSent(prompt);
   };
+  const [showText, setShowText] = useState(false);
+
+  useEffect(() => {
+    let timer;
+    if (isOpenSidebar) {
+      timer = setTimeout(() => {
+        setShowText(true);
+      }, 150);
+    } else {
+      setShowText(false);
+    }
+    return () => clearTimeout(timer);
+  }, [isOpenSidebar]);
   return (
     <div
-      className={`${
-        isOpenSidebar ? "open" : ""
-      } sidebar z-10 min-h-screen flex-col justify-between bg-background py-4 px-4 transition-all duration-1000 hidden lg:inline-flex`}
+      className={`sidebar z-10 min-h-screen flex-col justify-between py-3 px-3 transition-all duration-1000 hidden lg:inline-flex 
+    ${isOpenSidebar ? "open" : ""} ${
+        isDarkMode ? "bg-darkBackground text-white" : "bg-background text-black"
+      }`}
     >
       <div>
         <div className="flex items-center gap-1">
           <div
-            className="hover:bg-btn-background w-fit p-3 ml-px cursor-pointer rounded-full transition-all"
+            className={`${
+              isDarkMode ? "hover:bg-darkHoverBg " : "hover:bg-hoverBg"
+            } w-fit p-3 cursor-pointer rounded-full transition-all`}
             onClick={() => {
               toggleSidebar();
             }}
@@ -45,13 +62,19 @@ const Sidebar = () => {
         </div>
         <div
           onClick={() => newChat()}
-          className="fading mt-11 flex w-fit items-center gap-3 cursor-pointer py-2 px-3 bg-btn-background rounded-full text-gray-400 scale-110 ml-3 font-medium"
+          className={`${
+            isDarkMode ? "bg-darkHoverBg text-darkTextColor" : "bg-buttonBg "
+          } ${
+            isOpenSidebar ? "py-2 px-3" : null
+          } fading mt-11 flex w-fit items-center gap-4 cursor-pointer p-3 rounded-full`}
         >
-          <FiPlus className="text-lg" />
-          {isOpenSidebar ? <p className="text-sm mr-1">New chat</p> : ""}
+          <FiPlus className="text-lg  text-grayColor" />
+          {isOpenSidebar && showText && (
+            <p className="mr-1 text-grayColor">New chat</p>
+          )}
         </div>
         {isOpenSidebar ? (
-          <div className="flex flex-col p-4 font-medium ">
+          <div className="flex flex-col p-3 ">
             <p className="my-2">Recent</p>
             {prevPrompts.map((item) => {
               return (
@@ -72,17 +95,29 @@ const Sidebar = () => {
           ""
         )}
       </div>
-      <div className="px-1 flex flex-col ">
-        <div className="flex items-center gap-4 px-2 rounded-full hover:bg-btn-background cursor-pointer transition-all">
-          <BsQuestionCircle className="my-2 text-lg" />
+      <div className="px-1 flex flex-col mb-6">
+        <div
+          className={`${
+            isDarkMode ? "hover:bg-darkHoverBg" : "hover:bg-buttonBg"
+          } flex items-center gap-4 pl-3 py-3 rounded-full cursor-pointer transition-all`}
+        >
+          <BsQuestionCircle className="text-lg" />
           {isOpenSidebar ? <p>Help</p> : null}
         </div>
-        <div className="flex items-center gap-4 px-2  rounded-full hover:bg-btn-background cursor-pointer transition-all">
-          <LuHistory className="my-2 text-lg" />
+        <div
+          className={`${
+            isDarkMode ? "hover:bg-darkHoverBg" : "hover:bg-buttonBg"
+          } flex items-center gap-4 pl-3 py-3 rounded-full cursor-pointer transition-all`}
+        >
+          <LuHistory className="text-lg" />
           {isOpenSidebar ? <p>History</p> : null}
         </div>
-        <div className="flex items-center gap-4  px-2  rounded-full hover:bg-btn-background cursor-pointer transition-all">
-          <LuSettings className="my-2 text-lg" />
+        <div
+          className={`${
+            isDarkMode ? "hover:bg-darkHoverBg" : "hover:bg-buttonBg"
+          } flex items-center gap-4 pl-3 py-3 rounded-full cursor-pointer transition-all`}
+        >
+          <LuSettings className="text-lg" />
           {isOpenSidebar ? <p>Setting</p> : null}
         </div>
       </div>

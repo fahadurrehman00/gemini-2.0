@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,7 +6,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: "Outfit", sans-serif;
+  font-family: "Poppins";
 }
 #root {
   min-height: 100vh;
@@ -21,7 +21,8 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-.result::-webkit-scrollbar {
+.result,
+body::-webkit-scrollbar {
   display: none;
 }
 .loader hr {
@@ -83,11 +84,11 @@
   scroll-snap-align: start;
 }
 .sidebar {
-  width: 5rem;
+  width: 4.6rem;
   transition: width 0.5s ease; /* Smooth transition */
 }
 
 .sidebar.open {
-  width: 30rem;
+  width: 23.7rem;
   display: inline-flex !important;
 }

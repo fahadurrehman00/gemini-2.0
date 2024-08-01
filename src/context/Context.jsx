@@ -1,6 +1,8 @@
 import { createContext, useState } from "react";
 import runChat from "../config/gemini";
+
 export const Context = createContext();
+
 const ContextProvider = (props) => {
   const [inputs, setInputs] = useState("");
   const [recentPrompt, setRecentPrompt] = useState("");
@@ -9,18 +11,27 @@ const ContextProvider = (props) => {
   const [loading, setLoading] = useState(false);
   const [resultData, setResultData] = useState("");
   const [isOpenSidebar, setIsOpenSidebar] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
   const toggleSidebar = () => {
     setIsOpenSidebar(!isOpenSidebar);
   };
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
   const delayPara = (index, nextWord) => {
     setTimeout(function () {
       setResultData((prev) => prev + nextWord);
     }, 75 * index);
   };
+
   const newChat = () => {
     setLoading(false);
     setShowResult(false);
   };
+
   const onSent = async (prompt) => {
     setResultData("");
     setLoading(true);
@@ -37,42 +48,34 @@ const ContextProvider = (props) => {
     let responseArray = response.split("**");
     let newResponse = "";
     for (let i = 0; i < responseArray.length; i++) {
-      if (i === 0 || i % 2 !== 1) {
-        newResponse += responseArray[i];
-      } else {
-        newResponse += "<br/><b>" + responseArray[i] + "</b>";
-      }
-    }
-    let newResponse2 = newResponse.split("*").join("</b>");
-    let finalResponse = newResponse2.split(" ");
-    for (let i = 0; i < finalResponse.length; i++) {
-      const nextWord = finalResponse[i];
-      delayPara(i, nextWord + " ");
+      newResponse += responseArray[i];
+      delayPara(i, responseArray[i]);
     }
     setLoading(false);
-    setInputs("");
+    return response;
   };
 
-  const contextValue = {
-    inputs,
-    setInputs,
-    recentPrompt,
-    setRecentPrompt,
-    prevPrompts,
-    setPrevPrompts,
-    showResult,
-    setShowResult,
-    loading,
-    setLoading,
-    resultData,
-    setResultData,
-    onSent,
-    newChat,
-    toggleSidebar,
-    isOpenSidebar,
-  };
   return (
-    <Context.Provider value={contextValue}>{props.children}</Context.Provider>
+    <Context.Provider
+      value={{
+        inputs,
+        setInputs,
+        recentPrompt,
+        prevPrompts,
+        showResult,
+        loading,
+        resultData,
+        onSent,
+        toggleSidebar,
+        isOpenSidebar,
+        newChat,
+        isDarkMode,
+        toggleDarkMode,
+      }}
+    >
+      {props.children}
+    </Context.Provider>
   );
 };
+
 export default ContextProvider;
